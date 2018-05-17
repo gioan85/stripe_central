@@ -1,0 +1,9 @@
+.row{
+    width:500px;
+    clear:both;
+}
+.input{
+    float: left;
+}
+
+h2, h3, h4{ padding:0; margin:0}
