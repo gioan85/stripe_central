@@ -22,7 +22,7 @@ export function withStripe(WrappedComponent, publicKey, secretKey) {
     return await response.json();
   };
 
-  return class extends React.Component {
+  return class extends Component {
     postPublic(route, postData) {
       return request(route, publicKey, "POST", postData);
     }
