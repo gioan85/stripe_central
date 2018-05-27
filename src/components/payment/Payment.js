@@ -18,7 +18,6 @@ export default class Checkouts extends Component {
     this.setState({
       loading: true
     });
-    //console.log(this.props)
     const chargeData = await this.props.getSecret("charges");
     this.setState({
       data: chargeData.data,
@@ -27,7 +26,6 @@ export default class Checkouts extends Component {
   }
 
   render() {
-      //console.log('state data ', this.state.data)
   const payments = this.state.data.map( payment => <Payment payment={payment} />);
     return (
       <div>
@@ -56,7 +54,6 @@ export default class Checkouts extends Component {
 
 class Payment extends React.Component {
   render() {
-    console.log(this.props);
     return (
       <tr>
         <td>{this.props.payment.id}</td>

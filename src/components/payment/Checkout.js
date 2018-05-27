@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import style from "./Checkout_Style.css"
+import "./Checkout.css"
 
 export default class Checkouts extends Component {
   constructor(props) {
@@ -9,11 +9,11 @@ export default class Checkouts extends Component {
       cardNumber:'',
       cardExpMonth: '',
       cardExpYear:'',
-      Amount:'0',
+      amount:'0',
       error_:null
     };
+
     this.creatCharge = this.creatCharge.bind(this);
-    
   }
 
   async creatCharge() {
@@ -34,7 +34,6 @@ export default class Checkouts extends Component {
     };
 
     const tokenData = await this.props.postPublic("tokens",creditCardDetails);
-    console.log(tokenData);
     if(!tokenData.id)
     {
       this.setState({
@@ -47,7 +46,7 @@ export default class Checkouts extends Component {
     });
 
     const chargeData = await this.props.postSecret("charges", {
-      amount: this.state.Amount,
+      amount: this.state.amount,
       currency: "usd",
       description: "test charge coderShool",
       source: tokenData.id
@@ -64,7 +63,7 @@ export default class Checkouts extends Component {
       cardNumber:'',
       cardExpMonth:'',
       cardExpYear:'',
-      Amount:'0',
+      amount:'0',
       error_:''
     });
   }
@@ -79,24 +78,13 @@ export default class Checkouts extends Component {
           </tr>
           <tr>
             <td>Card number:</td>
-            <td> <input className="input" type="number" value={this.state.cardNumber} onChange={ele => this.setState({cardNumber: ele.target.value})}/></td>
+            <td> <input className="input" type="text" maxLength="16" value={this.state.cardNumber} onChange={ele => this.setState({cardNumber: ele.target.value})}/></td>
           </tr>
           <tr>
             <td>Exp Month:</td>
             <td>
               <select onChange={ele => this.setState({cardExpMonth: ele.target.value})} ref="inputCardExpMonth">
-                <option value={1} selected>01</option>
-                <option value={2}>02</option>
-                <option value={3}>03</option>
-                <option value={4}>04</option>
-                <option value={5}>05</option>
-                <option value={6}>06</option>
-                <option value={7}>07</option>
-                <option value={8}>08</option>
-                <option value={9}>09</option>
-                <option value={10}>10</option>
-                <option value={11}>11</option>
-                <option value={12}>12</option>
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(month => <option value={month} selected={month === 1}>{month}</option>)}
               </select>
             </td>
           </tr>
@@ -114,7 +102,7 @@ export default class Checkouts extends Component {
           </tr>
           <tr>
             <td>Amount</td>
-            <td><input type="number" value={this.state.Amount} onChange={ele => this.setState({Amount: ele.target.value})} /></td>
+            <td><input type="number" value={this.state.amount} onChange={ele => this.setState({amount: ele.target.value})} /></td>
           </tr>
         </table>
         
@@ -122,7 +110,7 @@ export default class Checkouts extends Component {
           <h2>Card number: {this.state.cardNumber}</h2>
           <h2>Expire month: {this.state.cardExpMonth}</h2>
           <h2>Expire Year: {this.state.cardExpYear}</h2>
-          <h2>Amount: {this.state.Amount}</h2>
+          <h2>Amount: {this.state.amount}</h2>
           <button onClick={this.creatCharge}>Pay</button>
           <h3>{this.state.latestCharge}</h3>
           <h3>{this.state.error_}</h3>
